@@ -2,6 +2,7 @@ package com.karimov03.codialapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
 import com.karimov03.codialapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -10,8 +11,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.btnKurslar.setOnClickListener {
-
-        }
     }
 }
