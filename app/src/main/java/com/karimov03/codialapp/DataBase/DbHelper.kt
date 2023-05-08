@@ -10,7 +10,7 @@ import com.karimov03.codialapp.Class.Mentor
 class DbHelper(context: Context):SQLiteOpenHelper(context, db_name,null, db_version),DbInterface {
 
     companion object{
-        const val db_name="mydatabase"
+        const val db_name="my_sqldatabase"
         const val db_version=1
 
         const val kurs_table="kurs_table"
@@ -28,9 +28,9 @@ class DbHelper(context: Context):SQLiteOpenHelper(context, db_name,null, db_vers
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
+
         val kurslarquary="create table $kurs_table($kurs_id integer not null primary key autoincrement unique,$kurs_name text not null, $kurs_about text not null)"
             db?.execSQL(kurslarquary)
-
         val mentorquary = "create table $mentor_table($mentor_id integer not null primary key autoincrement unique,$mentor_name text not null, $mentor_father text not null,$mentor_kursi text not null )"
         db?.execSQL(mentorquary)
 
@@ -64,6 +64,7 @@ class DbHelper(context: Context):SQLiteOpenHelper(context, db_name,null, db_vers
                 )
             }while (cursor.moveToNext())
         }
+        cursor.close()
         return list
     }
 
@@ -73,7 +74,7 @@ class DbHelper(context: Context):SQLiteOpenHelper(context, db_name,null, db_vers
         contentValues.put(mentor_name, mentor.name)
         contentValues.put(mentor_father, mentor.father)
         contentValues.put(mentor_kursi, mentor.kursi)
-        data.insert(kurs_table,null,contentValues)
+        data.insert(mentor_table,null,contentValues)
     }
 
     override fun editMentor(id: Int, mentor: Mentor) {
@@ -82,33 +83,36 @@ class DbHelper(context: Context):SQLiteOpenHelper(context, db_name,null, db_vers
         contentValues.put(mentor_name, mentor.name)
         contentValues.put(mentor_father, mentor.father)
         contentValues.put(mentor_kursi, mentor.kursi)
-        data.update(kurs_table, contentValues, "$mentor_id=?", arrayOf(id.toString()))
+        data.update(mentor_table, contentValues, "$mentor_id=?", arrayOf(id.toString()))
     }
 
 
     override fun deleteMentor(id: Int) {
         val data = writableDatabase
-        data.delete(kurs_table, "$mentor_id = ?", arrayOf(id.toString()))
+        data.delete(mentor_table, "$mentor_id = ?", arrayOf(id.toString()))
     }
 
 
     override fun getAllMentor(string: String): List<Mentor> {
-        val data=readableDatabase
-        val quary="select * from $mentor_table where $mentor_kursi=?"
-        val cursor=data.rawQuery(quary,null)
-        val list=ArrayList<Mentor>()
-        if (cursor.moveToFirst()){
+        val data = readableDatabase
+        val query = "SELECT * FROM mentor_table WHERE mentor_kursi = ?"
+        val cursor = data.rawQuery(query, arrayOf(string))
+        val list = ArrayList<Mentor>()
+        if (cursor.moveToFirst()) {
             do {
-                list.add(
-                    Mentor(
-                        cursor.getInt(0),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3)
-                    )
+                val mentor = Mentor(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3)
                 )
-            }while (cursor.moveToNext())
+                list.add(mentor)
+            } while (cursor.moveToNext())
         }
+        cursor.close()
         return list
     }
+
+
+
 }

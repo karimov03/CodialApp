@@ -22,10 +22,18 @@
         <action
             android:id="@+id/action_kurslarFragment_to_mentorFragment"
             app:destination="@id/mentorFragment" />
+        <action
+            android:id="@+id/action_kurslarFragment_to_guruhlarFragment"
+            app:destination="@id/guruhlarFragment" />
     </fragment>
     <fragment
         android:id="@+id/mentorFragment"
         android:name="com.karimov03.codialapp.Fragments.MentorFragment"
         android:label="fragment_mentor"
         tools:layout="@layout/fragment_mentor" />
+    <fragment
+        android:id="@+id/guruhlarFragment"
+        android:name="com.karimov03.codialapp.Fragments.GuruhlarFragment"
+        android:label="fragment_guruhlar"
+        tools:layout="@layout/fragment_guruhlar" />
 </navigation>

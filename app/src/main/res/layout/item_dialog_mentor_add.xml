@@ -76,12 +76,12 @@
     <LinearLayout
         android:id="@+id/layout_add"
         android:layout_width="239dp"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:gravity="end">
 
 
         <androidx.cardview.widget.CardView
-            android:visibility="gone"
             android:id="@+id/btn_qoshish"
             android:layout_width="129dp"
             android:layout_height="30dp"

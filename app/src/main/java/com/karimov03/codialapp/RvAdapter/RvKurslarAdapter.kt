@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.karimov03.codialapp.Class.Kurslar
 import com.karimov03.codialapp.databinding.ItemRvBinding
 
-class RvKurslarAdapter(val list:ArrayList<Kurslar>):RecyclerView.Adapter<RvKurslarAdapter.vh>() ,rvAction{
+class RvKurslarAdapter(val list:ArrayList<Kurslar>,val rvAction: RvAction):RecyclerView.Adapter<RvKurslarAdapter.vh>() {
     class vh(val itemRvBinding: ItemRvBinding):RecyclerView.ViewHolder(itemRvBinding.root){}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):  vh{
@@ -17,12 +17,12 @@ class RvKurslarAdapter(val list:ArrayList<Kurslar>):RecyclerView.Adapter<RvKursl
 
     override fun onBindViewHolder(holder: vh, position: Int) {
         holder.itemRvBinding.tvName.text=list[position].name
+        holder.itemRvBinding.btnGo.setOnClickListener {
+            rvAction.OnClick(list,position)
+        }
+    }
+    interface RvAction{
+        fun OnClick(list: List<Kurslar>,position: Int)
     }
 
-    override fun OnClick(list: List<Kurslar>, position: Int) {
-
-    }
-}
-interface rvAction{
-    fun OnClick(list: List<Kurslar>,position: Int)
 }
